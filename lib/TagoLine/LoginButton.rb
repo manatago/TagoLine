@@ -4,7 +4,7 @@ module TagoLine
 
     def self.show()
       text = buttonStyle()
-      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CLIENT_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>".html_safe
+      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CHANNEL_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>".html_safe
       text
     end
 
