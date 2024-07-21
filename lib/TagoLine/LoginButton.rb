@@ -4,8 +4,8 @@ module TagoLine
 
     def self.show()
       text = buttonStyle()
-      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CHANNEL_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>".html_safe
-      text
+      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CHANNEL_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>"
+      text.html_safe
     end
 
     def self.buttonStyle()
@@ -24,7 +24,7 @@ module TagoLine
         .line_login_button:active{
           background-image:url('data:image/png;base64,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')
         }
-      </style>".html_safe
+      </style>"
     end
   end
 end
