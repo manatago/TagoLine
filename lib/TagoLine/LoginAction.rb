@@ -5,14 +5,24 @@ require 'json'
 module TagoLine
   class LoginAction
 
-    def self.loginProcess(controller)
+    def self.logoutProcess(controller,user_class=nil)
+        controller.session.delete(:line_sub)
+        controller.session.delete(:line_name)
+        controller.session.delete(:line_picture)
+        controller.session.delete(:line_state)
+        if(user_class != nil)
+            controller.session.delete(:user_id)
+        end
+    end
+
+    def self.loginProcess(controller,user_class=nil)
         if controller.session[:line_sub] && controller.session[:line_sub].length > 0
             return true
         end
 
         if stateIsRight(controller)
             res = getAccessToken(controller)
-            getUserInfo(controller, res["id_token"])
+            getUserInfo(controller, res["id_token"], user_class=nil)
             return true
         else
             return false
@@ -24,12 +34,21 @@ module TagoLine
     end
 
 
-    def self.getUserInfo(controller, id_token)
+    def self.getUserInfo(controller, id_token, user_class=nil)
         uri = URI('https://api.line.me/oauth2/v2.1/verify')
         res = Net::HTTP.post_form(uri,'id_token' => id_token , 'client_id' => ENV['LINE_CHANNEL_ID'])
         controller.session[:line_sub] = JSON.parse(res.body)["sub"]
         controller.session[:line_name]= JSON.parse(res.body)["name"]
         controller.session[:line_picture]= JSON.parse(res.body)["picture"]
+
+        if user_class != nil
+            user = user_class.find_or_initialize_by(line_sub: controller.session[:line_sub])
+            user.line_name = controller.session[:line_name]
+            user.line_picture = controller.session[:line_picture]
+            user.save
+            controller.session[:user_id] = user.id
+        end
+
         JSON.parse(res.body)
     end
 
