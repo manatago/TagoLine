@@ -4,14 +4,11 @@ require 'rails/all'
 module TagoLine
   class LoginButton
 
-    def self.showSession()
-      controller = ActionController::Base.current
-      controller.session[:test] if controller
-    end
-
-    def self.show()
+    def self.show(controller)
+      line_state = ('a'..'z').to_a.shuffle[0..7].join
+      controller.session[:line_state] = line_state
       text = buttonStyle()
-      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CHANNEL_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>"
+      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CHANNEL_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state="+line_state+"&scope=profile%20openid%20email&nonce=09876xyz'></a>"
       text.html_safe
     end
 
