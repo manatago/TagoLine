@@ -13,3 +13,11 @@ LINE_CHANNEL_SECRET
 <%= TagoLine::LoginButton.show(controller) %>
 ```
 セッションを使うため、引数にcontrollerが必要です
+
+## CSRFのチェック
+```
+TagoLine::LoginAction.stateIsRight(self)
+```
+コントローラー内でこのように書く。
+URLのパラメーターにあるstateとsession[:line_state]を比較した結果を返す
+
