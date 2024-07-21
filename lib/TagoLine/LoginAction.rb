@@ -45,7 +45,7 @@ module TagoLine
             user = user_class.find_or_initialize_by(line_sub: controller.session[:line_sub])
             user.line_name = controller.session[:line_name]
             user.line_picture = controller.session[:line_picture]
-            user.save
+            user.save!
             controller.session[:user_id] = user.id
         end
 
