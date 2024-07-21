@@ -4,8 +4,8 @@ require 'rails/all'
 module TagoLine
   class LoginButton
 
-    def self.showSession()
-      session[:test]
+    def self.showSession(controller)
+      controller.session[:test]
     end
 
     def self.show()
