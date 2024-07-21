@@ -4,8 +4,9 @@ require 'rails/all'
 module TagoLine
   class LoginButton
 
-    def self.showSession(controller)
-      controller.session[:test]
+    def self.showSession()
+      controller = ActionController::Base.current
+      controller.session[:test] if controller
     end
 
     def self.show()
