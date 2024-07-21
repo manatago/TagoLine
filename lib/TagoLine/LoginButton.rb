@@ -1,9 +1,10 @@
 require 'action_view'
 module TagoLine
   class LoginButton
+
     def self.show()
       text = buttonStyle()
-      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1653867531&redirect_uri=https%3A%2F%2Ftago-line.herokuapp.com%2Fcallback&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>".html_safe
+      text+="<a class='line_login_button' href='https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id="+ENV["LINE_CLIENT_ID"]+"&redirect_uri="+ENV["LINE_CALLBACK_URL"]+"&state=12345abcde&scope=profile%20openid%20email&nonce=09876xyz'></a>".html_safe
       text
     end
 
