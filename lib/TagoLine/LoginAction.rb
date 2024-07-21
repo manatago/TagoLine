@@ -5,5 +5,6 @@ module TagoLine
     def self.stateIsRight(controller)
         controller.session[:line_state] == controller.params[:state]
     end
+    
   end
 end
