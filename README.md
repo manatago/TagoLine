@@ -10,5 +10,6 @@ LINE_CHANNEL_SECRET
 ## ログインボタン
 ビューの中でこう書きます。
 ```
-<%= TagoLine::LoginButton.show %>
+<%= TagoLine::LoginButton.show(controller) %>
 ```
+セッションを使うため、引数にcontrollerが必要です
