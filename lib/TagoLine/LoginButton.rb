@@ -1,6 +1,12 @@
 require 'action_view'
+require 'rails/all'
+
 module TagoLine
   class LoginButton
+
+    def self.showSession()
+      session[:test]
+    end
 
     def self.show()
       text = buttonStyle()
