@@ -22,7 +22,7 @@ module TagoLine
 
         if stateIsRight(controller)
             res = getAccessToken(controller)
-            getUserInfo(controller, res["id_token"], user_class=nil)
+            getUserInfo(controller, res["id_token"], user_class)
             return true
         else
             return false
@@ -45,8 +45,7 @@ module TagoLine
             user = user_class.find_or_initialize_by(line_sub: JSON.parse(res.body)["sub"])
             user.line_name = JSON.parse(res.body)["name"]
             user.line_picture = JSON.parse(res.body)["picture"]
-            user.save!
-            logger.debug('helloooooooooooooooooooooo')
+            user.save
             controller.session[:user_id] = user.id
         end
 
