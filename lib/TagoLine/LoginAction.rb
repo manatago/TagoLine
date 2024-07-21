@@ -45,7 +45,9 @@ module TagoLine
             user = user_class.find_or_initialize_by(line_sub: JSON.parse(res.body)["sub"])
             user.line_name = JSON.parse(res.body)["name"]
             user.line_picture = JSON.parse(res.body)["picture"]
-            user.save
+            logger.debug('heeeeeeeeeeeeeeeeeeeeee')
+            user.save!
+
             controller.session[:user_id] = user.id
         end
 
