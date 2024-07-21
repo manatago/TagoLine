@@ -51,9 +51,67 @@ TagoLine::LoginAction.loginProcess(self)
 
 こうすると
 sessionの中にline_sub,line_name,line_pictureが入ります。
+ログインできればtrue,できない場合はfalseが帰ります
 
 また、これ以外にもlogoutProcessを用意しており、そこでセッションの中身をクリアします
 
+
+## ログアウトボタン
+ビューの中でこう書きます。
+```
+<%= TagoLine::LogoutButton.show("/logout") %>
+```
+ログアウト先のパスを引数にします。
+
+
+使い方は以上です。
+これ以上複雑にすると、わけわからんくなるので、これ以上は基本複雑にしないようにします。
+
+
+# 実際の使用例
+## ログインしてリダイレクトしてきたところ
+```
+  def top
+
+    #セッションにユーザーIDがあればそのままトップページを表示して終わる
+    if session[:user_id].present?
+      render template: "home/top"
+      return
+    end
+
+    #stateとcodeがない場合はトップページにリダイレクトする
+    if params[:state].blank? || params[:code].blank?
+      redirect_to "/"
+      return
+    end
+
+    #セッションにユーザーIDがない場合はログイン処理を行う
+    if !TagoLine::LoginAction.loginProcess(self)
+      render plain: "login error"
+      return
+    end
+    #ログイン処理が成功した場合はユーザー情報を取得してDBに保存する
+    if session[:line_sub].present? && session[:line_name].present?
+      user = User.find_or_initialize_by(line_sub: session[:line_sub])
+      user.line_name = session[:line_name]
+      user.line_picture = session[:line_picture]
+      user.save
+      session[:user_id] = user.id
+    end
+  
+  end
+```
+
+
+## ログアウトの処理
+
+```
+  def logout
+    session.delete(:user_id)
+    TagoLine::LoginAction.logoutProcess(self)
+    redirect_to "/"
+  end
+```
 
 
 
